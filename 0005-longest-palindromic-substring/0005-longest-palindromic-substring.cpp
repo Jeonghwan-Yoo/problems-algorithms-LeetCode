@@ -3,35 +3,28 @@ public:
     string longestPalindrome(string s) {
         int len = s.size();
         
-        int palindromeLen[1001][1001] = { 0, };
+        int start = 0;
+        int end = 0;
         for (int i = 0; i < len; i++) {
-            palindromeLen[i][i] = 1;
-        }
-        for (int i = 0; i < len - 1; i++) {
-            if (s[i] == s[i + 1]) {
-                palindromeLen[i][i + 1] = 2;
-            }
-        }
-        for (int sz = 3; sz <= len; sz++) {
-            for (int start = 0; start < len - sz + 1; start++) {
-                int end = start + sz - 1;
-                if (s[start] == s[end] && palindromeLen[start + 1][end - 1] > 0) {
-                    palindromeLen[start][end] = palindromeLen[start + 1][end - 1] + 2;
-                }
+            int len1 = expandAroundCenter(s, i, i);
+            int len2 = expandAroundCenter(s, i, i + 1);
+            int biggerLen = max(len1, len2);
+            if (biggerLen > end - start + 1) {
+                start = i - ((biggerLen - 1) / 2);
+                end = i + (biggerLen / 2);
             }
         }
         
-        int maxLen = 0;
-        string ret = "";
-        for (int start = 0; start < len; start++) {
-            for (int end = 0; end < len; end++) {
-                if (palindromeLen[start][end] > maxLen) {
-                    ret = s.substr(start, palindromeLen[start][end]);
-                    maxLen = palindromeLen[start][end];
-                }
-            }
+        return s.substr(start, end - start + 1);
+    }
+    
+    int expandAroundCenter(string s, int left, int right) {
+        int len = s.size();
+        while (left >= 0 && right < len && s[left] == s[right]) {
+            left--;
+            right++;
         }
         
-        return ret;
+        return right - left - 1;
     }
 };
