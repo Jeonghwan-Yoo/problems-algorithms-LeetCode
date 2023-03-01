@@ -31,7 +31,7 @@ public:
         if (len % 2 == 1) {
             ret = nums[lenHalf];
         } else {
-            ret = ((double)nums[lenHalf] + nums[lenHalf - 1]) / 2;
+            ret = (nums[lenHalf] + nums[lenHalf - 1]) / 2.0;
         }
         return ret;
     }
