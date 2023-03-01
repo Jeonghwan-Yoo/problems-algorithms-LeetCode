@@ -4,7 +4,7 @@ public:
         int len = s.size();
         int ret = 0;
         
-        unordered_map<char, int> usedCharactersWithIndex;
+        vector<int> usedCharactersWithIndex(300, -1);
         int start = 0;
         for (int end = 0; end < len; end++) {
             char endVal = s[end];
