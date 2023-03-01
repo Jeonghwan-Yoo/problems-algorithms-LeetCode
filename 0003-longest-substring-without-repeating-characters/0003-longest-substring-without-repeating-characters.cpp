@@ -4,17 +4,16 @@ public:
         int len = s.size();
         int ret = 0;
         
-        unordered_map<char, int> usedCharactersWithCount;
+        unordered_map<char, int> usedCharactersWithIndex;
         int start = 0;
         for (int end = 0; end < len; end++) {
             char endVal = s[end];
-            usedCharactersWithCount[endVal]++;
-            while (usedCharactersWithCount[endVal] > 1) {
-                char startVal = s[start];
-                usedCharactersWithCount[startVal]--;
-                start++;
+            if (usedCharactersWithIndex[endVal] > 0) {
+                start = max(start, usedCharactersWithIndex[endVal]);
             }
             ret = max(ret, end - start + 1);
+            
+            usedCharactersWithIndex[endVal] = end + 1;
         }
 
         return ret;
