@@ -5,25 +5,13 @@ public:
         int len2 = nums2.size();
         
         vector<int> nums;
-        int start1 = 0;
-        int start2 = 0;
-        while (start1 < len1 && start2 < len2) {
-            if (nums1[start1] < nums2[start2]) {
-                nums.emplace_back(nums1[start1]);
-                start1++;
-            } else {
-                nums.emplace_back(nums2[start2]);
-                start2++;
-            }
+        for (int i = 0; i < len1; i++) {
+            nums.emplace_back(nums1[i]);
         }
-        while (start1 < len1) {
-            nums.emplace_back(nums1[start1]);
-            start1++;
+        for (int i = 0; i < len2; i++) {
+            nums.emplace_back(nums2[i]);
         }
-        while (start2 < len2) {
-            nums.emplace_back(nums2[start2]);
-            start2++;
-        }
+        sort(nums.begin(), nums.end());
         
         int len = nums.size();
         int lenHalf = len / 2;
