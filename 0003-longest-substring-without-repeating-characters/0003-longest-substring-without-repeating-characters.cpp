@@ -4,7 +4,7 @@ public:
         int len = s.size();
         int ret = 0;
         
-        vector<int> usedCharactersWithIndex(300, -1);
+        vector<int> usedCharactersWithIndex(128, -1);
         int start = 0;
         for (int end = 0; end < len; end++) {
             char endVal = s[end];
