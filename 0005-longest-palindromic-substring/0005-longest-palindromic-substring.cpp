@@ -3,28 +3,36 @@ public:
     string longestPalindrome(string s) {
         int len = s.size();
         
-        int start = 0;
-        int end = 0;
+        string newString = "#";
         for (int i = 0; i < len; i++) {
-            int len1 = expandAroundCenter(s, i, i);
-            int len2 = expandAroundCenter(s, i, i + 1);
-            int biggerLen = max(len1, len2);
-            if (biggerLen > end - start + 1) {
-                start = i - ((biggerLen - 1) / 2);
-                end = i + (biggerLen / 2);
+            newString += s[i];
+            newString += "#";
+        }
+        
+        int newStringLen = newString.size();
+        vector<int> palindrome(newStringLen);
+        int right = 0;
+        int center = 0;
+        int maxLen = 0;
+        int maxCenter = 0;
+        for (int i = 0; i < newStringLen; i++) {
+            if (i < right) {
+                palindrome[i] = min(right - i, palindrome[2 * center - i]);
+            }
+            while (i - palindrome[i] - 1 >= 0 && i + palindrome[i] + 1 < newStringLen 
+                   && newString[i - palindrome[i] - 1] == newString[i + palindrome[i] + 1]) {
+                palindrome[i]++;
+            }
+            if (i + palindrome[i] > right) {
+                center = i;
+                right = i + palindrome[i];
+            }
+            if (palindrome[i] > maxLen) {
+                maxLen = palindrome[i];
+                maxCenter = i;
             }
         }
-        
-        return s.substr(start, end - start + 1);
-    }
-    
-    int expandAroundCenter(string s, int left, int right) {
-        int len = s.size();
-        while (left >= 0 && right < len && s[left] == s[right]) {
-            left--;
-            right++;
-        }
-        
-        return right - left - 1;
+        int start = (maxCenter - maxLen) / 2;
+        return s.substr(start, maxLen);
     }
 };
