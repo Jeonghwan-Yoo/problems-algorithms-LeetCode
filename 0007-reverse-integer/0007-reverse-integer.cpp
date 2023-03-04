@@ -1,24 +1,14 @@
 class Solution {
 public:
     int reverse(int x) {
-        if (x == 0) {
-            return 0;
-        }
-        
-        while (x % 10 == 0) {
+        long long ret = 0;
+        while (x != 0) {
+            int num = x % 10;
             x /= 10;
+            ret = 10 * ret + num;
         }
-        string stringX = to_string(x);
-        int offset = 0;
-        if (stringX[0] == '-') {
-            offset = 1;
-        }
-        std::reverse(stringX.begin() + offset, stringX.end());
-        int ret = 0;
-        try {
-            ret = stoi(stringX);
-        } catch (...) {
-            ret = 0;
+        if (ret < INT_MIN || ret > INT_MAX) {
+            return 0;
         }
         return ret;
     }
