@@ -1,28 +1,24 @@
 class Solution {
 public:
     int romanToInt(string s) {
-        const string symbols[13] = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
-        const int values[13] = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
+        unordered_map<char, int> symbols = {
+            { 'I', 1 },
+            { 'V', 5 },
+            { 'X', 10 },
+            { 'L', 50 },
+            { 'C', 100 },
+            { 'D', 500 },
+            { 'M', 1000 }
+        };
         
-        int ret = 0;
         int n = s.size();
-        int sIdx = 0;
-        int symbolIdx = 0;
-        while (sIdx < n) {
-            if (symbolIdx % 2 == 1) {
-                if (symbols[symbolIdx][0] == s[sIdx] && symbols[symbolIdx][1] == s[sIdx + 1]) {
-                    ret += values[symbolIdx];
-                    sIdx += 2;
-                }
-                symbolIdx++;
+        int ret = 0;
+        for (int i = 0; i < n; i++) {
+            if (i != n - 1 && symbols[s[i]] < symbols[s[i + 1]]) {
+                ret -= symbols[s[i]];
             } else {
-                while (symbols[symbolIdx][0] == s[sIdx]) {
-                    ret += values[symbolIdx];
-                    sIdx++;
-                }
-                symbolIdx++;
+                ret += symbols[s[i]];
             }
-            
         }
         
         return ret;
