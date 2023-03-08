@@ -7,11 +7,11 @@ public:
         }
         
         string prefix = strs[0];
-        for (int i = 1; i < n; i++) {
-            while (strs[i].find(prefix) != 0) {
-                prefix = prefix.substr(0, prefix.size() - 1);
-                if (prefix.empty()) {
-                    return "";
+        for (int i = 0; i < prefix.size(); i++) {
+            char c = prefix[i];
+            for (int j = 0; j < n; j++) {
+                if (i == strs[j].size() || strs[j][i] != c) {
+                    return prefix.substr(0, i);
                 }
             }
         }
