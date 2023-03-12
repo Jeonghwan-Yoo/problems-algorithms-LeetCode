@@ -6,33 +6,19 @@ public:
         int n = nums.size();
         
         vector<vector<int>> ret;
-        int first = 0;
-        while (first < n - 2) {
-            int second = first + 1;
-            int third = n - 1;
-            while (second < third) {
-                int sum = nums[first] + nums[second] + nums[third];
-                if (sum == 0) {
-                    ret.emplace_back(vector<int>{ nums[first], nums[second], nums[third] });
-                    while (second + 1 < third && nums[second] == nums[second + 1]) {
-                        second++;    
-                    }
-                    while (second < third - 1 && nums[third] == nums[third - 1]) {
-                        third--;    
-                    }
-                    second++;
-                    third--;
+        for (int first = 0; first < n - 2; first++) {
+            for (int second = first + 1; second < n - 1; second++) {
+                int thirdValue = -(nums[first] + nums[second]);
+                if (binary_search(nums.begin() + second + 1, nums.end(), thirdValue)) {
+                    ret.emplace_back(vector<int>{ nums[first], nums[second], thirdValue });
                 }
-                else if (sum < 0) {
+                while (second + 1 < n && nums[second] == nums[second + 1]) {
                     second++;
-                } else {
-                    third--;
                 }
             }
-            while (first + 1 < n - 2 && nums[first] == nums[first + 1]) {
+            while (first + 1 < n && nums[first] == nums[first + 1]) {
                 first++;
             }
-            first++;
         }
         
         return ret;
