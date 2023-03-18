@@ -17,30 +17,11 @@ public:
             return list1;
         }
         
-        ListNode* merged = list1;
-        if (list1->val > list2->val) {
-            merged = list2;
-            list2 = list2->next;
-        } else {
-            list1 = list1->next;
+        if (list1->val <= list2->val) {
+            list1->next = mergeTwoLists(list1->next, list2);
+            return list1;
         }
-        ListNode* head = merged;
-        while (list1 != nullptr && list2 != nullptr) {
-            if (list1->val <= list2->val) {
-                merged->next = list1;
-                list1 = list1->next;
-            } else {
-                merged->next = list2;
-                list2 = list2->next;
-            }
-            merged = merged->next;
-        }
-        if (list1 != nullptr) {
-            merged->next = list1;
-        } else if (list2 != nullptr) {
-            merged->next = list2;
-        }
-        
-        return head;
+        list2->next = mergeTwoLists(list1, list2->next);
+        return list2;
     }
 };
