@@ -1,20 +1,19 @@
 class Solution {
 public:
     vector<string> generateParenthesis(int n) {
-        vector<string> ret;
+        vector<vector<string>> dp(n + 1);
         
-        if (n == 0) {
-            ret.emplace_back("");
-            return ret;
-        } 
-        for (int i = 0; i < n; i++) {
-            for (string left: generateParenthesis(i)) {
-                for (string right: generateParenthesis(n - 1 - i)) {
-                    ret.emplace_back("(" + left + ")" + right);
+        dp[0] = { "" };
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < i; j++) {
+                for (const string& left: dp[j]) {
+                    for (const string& right: dp[i - j - 1]) {
+                        dp[i].emplace_back("(" + left + ")" + right);
+                    }
                 }
             }
         }
         
-        return ret;
+        return dp[n];
     }
 };
